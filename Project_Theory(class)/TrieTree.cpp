@@ -28,7 +28,6 @@ TrieTree::TrieTree()
 TrieTree::~TrieTree()
 {
 	DeleteAll();
-	delete root;
 }
 
 bool TrieTree::IsEmpty()
