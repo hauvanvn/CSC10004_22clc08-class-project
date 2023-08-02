@@ -28,7 +28,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="t.inp">
+    <None Include="dictionary.txt">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

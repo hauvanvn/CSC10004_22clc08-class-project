@@ -28,6 +28,7 @@ TrieTree::TrieTree()
 TrieTree::~TrieTree()
 {
 	DeleteAll();
+	delete root;
 }
 
 bool TrieTree::IsEmpty()
@@ -132,7 +133,7 @@ void TrieTree::Delete(string key)
 
 void TrieTree::DeleteAll()
 {
-	if (root == nullptr) return;
+	if (root == nullptr || root->IsEmpty()) return;
 	vector<TrieNode*> stack;
 	stack.push_back(root);
 
@@ -147,4 +148,36 @@ void TrieTree::DeleteAll()
 		delete pNode;
 		pNode = nullptr;
 	}
+
+	root = nullptr;
+}
+
+vector<string> TrieTree::Suggest(string key)
+{
+	vector<string> res;
+	vector<pair<TrieNode*, string>> stack;
+	stack.push_back({ root, key });
+
+	// pre find key location
+	for (int i = 0; i < key.size(); ++i)
+	{
+		int index = key[i] - 'A';
+
+		if (!stack.back().first->pNext[index]) return res;
+		stack.back().first = stack.back().first->pNext[index];
+	}
+
+	while (!stack.empty())
+	{
+		TrieNode* pNode = stack.back().first;
+		string keySuggest = stack.back().second;
+		stack.pop_back();
+
+		if (pNode->isEndOfWord) res.push_back(keySuggest);
+
+		for (int i = 0; i < NUM_TRIE_NODES; ++i)
+			if (pNode->pNext[i] != nullptr) stack.push_back({ pNode->pNext[i], keySuggest + char(i + 'A') });
+	}
+
+	return res;
 }

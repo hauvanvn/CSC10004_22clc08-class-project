@@ -6,26 +6,62 @@
 
 using namespace std;
 
-int main()
+// Read dictionary from give file
+vector<string> GetDictionaryFile(string file_name)
 {
-	ifstream input("t.inp");
+	ifstream input(file_name);
 
-	TrieTree root;
-	vector<string> a;
-	string tmp;
-	while (getline(input, tmp))
-	{
-		a.push_back(tmp);
-	}
-
-	root.BuildTree(a);
-	string key = "haudeptrai";
-	root.Insert(key);
-
-	cout << root.GetNumItems() << "\n";
-	root.Delete(key);
-	cout << root.Search(key) << "\n";
+	int n;
+	input >> n;
+	vector<string> dictionary(n);
+	for (int i = 0; i < n; ++i) getline(input, dictionary[i]);
 
 	input.close();
+	return dictionary;
+}
+
+// Save dictionary to given file
+void SaveDictionaryFile(string file_name, vector<string> dictionary)
+{
+	ofstream output(file_name);
+
+	output << dictionary.size() << "\n";
+	for (auto i : dictionary) output << i << "\n";
+
+	output.close();
+}
+
+int main()
+{
+	string file_name = "dictionary.txt";
+	vector<string> dictionary = GetDictionaryFile(file_name);
+
+	TrieTree root;
+
+	// Test whether a trie is empty
+	cout << (root.IsEmpty() ? "Trie tree is empty" : "Trie tree is not empty") << "\n";
+
+	// Build a trie from given items
+	root.BuildTree(dictionary);
+	cout << (root.IsEmpty() ? "Trie tree is empty" : "Trie tree is not empty") << "\n";
+
+	// Get number of items in a tre
+	cout << "Number of items in a tree: " << root.GetNumItems() << "\n";
+
+	// Find the item in a trie. EX: "data struct"
+	cout << "data struct " << (root.Search("data struct") ? "is exist in tree\n" : "is not exist in tree\n");
+
+	// Insert a new item into the trie. EX: "data struct"
+	root.Insert("data struct");
+	cout << "data struct " << (root.Search("data struct") ? "is exist in tree\n" : "is not exist in tree\n");
+
+	// Remove an item from the trie. EX: "data struct"
+	root.Delete("data struct");
+	cout << "data struct " << (root.Search("data struct") ? "is exist in tree\n" : "is not exist in tree\n");
+
+	// Remove all elements from the trie
+	root.DeleteAll();
+	cout << (root.IsEmpty() ? "Trie tree is empty" : "Trie tree is not empty") << "\n";
+
 	return 0;
 }

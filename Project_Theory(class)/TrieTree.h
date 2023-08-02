@@ -51,6 +51,9 @@ public:
 	// Delete all data in trie tree
 	void DeleteAll();
 
+	// Get all suggest keyword (Ex: he -> hello, heli,...)
+	vector<string> Suggest(string key);
+
 private:
 	TrieNode* root;
 };

@@ -134,7 +134,7 @@
     <ClInclude Include="TrieTree.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="t.inp" />
+    <None Include="dictionary.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
