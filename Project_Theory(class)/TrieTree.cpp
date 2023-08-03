@@ -7,7 +7,7 @@ TrieNode* NewNode()
 	// set all node child null
 	for (int i = 0; i < NUM_TRIE_NODES; ++i)
 		newNode->pNext[i] = nullptr;
-	newNode->isEndOfWord = 0;
+	newNode->isEndOfWord = false;
 
 	return newNode;
 }
@@ -45,30 +45,37 @@ void TrieTree::BuildTree(vector<string> st)
 
 void TrieTree::Insert(string key)
 {
+	// Lowercase string
+	for (auto& i : key) i = tolower(i);
+
 	TrieNode* pNode = root;
 	if (!pNode) pNode = NewNode();
-	
+
 	// create sub-branches in tree
 	for (int i = 0; i < key.size(); ++i)
 	{
-		int index = key[i] - 'A'; // Change 'a' if trie has node (a-z)
+		int index = key[i] - 'a';
 
 		if (!pNode->pNext[index]) pNode->pNext[index] = NewNode();
 		pNode = pNode->pNext[index];
 	}
 
 	// Set node is true
-	++pNode->isEndOfWord;
+	pNode->isEndOfWord = true;
 }
 
 bool TrieTree::Search(string key)
 {
 	if (root == nullptr) return false;
+
+	// Lowercase string
+	for (auto& i : key) i = tolower(i);
+
 	TrieNode* pNode = root;
 
 	for (int i = 0; i < key.size(); ++i)
 	{
-		int index = key[i] - 'A';
+		int index = key[i] - 'a';
 
 		if (!pNode->pNext[index]) return false;
 		pNode = pNode->pNext[index];
@@ -99,8 +106,12 @@ int TrieTree::GetNumItems()
 
 void TrieTree::Delete(string key)
 {
-	vector<TrieNode*> stack;
 	if (root->IsEmpty()) return;
+
+	// Lowercase string
+	for (auto& i : key) i = tolower(i);
+
+	vector<TrieNode*> stack;
 	stack.push_back(root);
 
 	// Create a stack store all node has key
@@ -108,7 +119,7 @@ void TrieTree::Delete(string key)
 	{
 		TrieNode* pNode = stack.back();
 
-		int index = key[stack.size() - 1] - 'A';
+		int index = key[stack.size() - 1] - 'a';
 		stack.push_back(pNode->pNext[index]);
 	}
 
@@ -118,14 +129,14 @@ void TrieTree::Delete(string key)
 		TrieNode* pNode = stack.back();
 		stack.pop_back();
 
-		if (pNode->isEndOfWord) --pNode->isEndOfWord;
+		if (pNode->isEndOfWord) pNode->isEndOfWord = false;
 
 		if (!pNode->isEndOfWord && pNode->IsEmpty())
 		{
 			delete pNode;
 			pNode = nullptr;
 			if (stack.empty()) root = pNode;
-			else stack.back()->pNext[key[stack.size() - 1] - 'A'] = pNode;
+			else stack.back()->pNext[key[stack.size() - 1] - 'a'] = pNode;
 		}
 	}
 }
@@ -160,7 +171,7 @@ vector<string> TrieTree::Suggest(string key)
 	// pre find key location
 	for (int i = 0; i < key.size(); ++i)
 	{
-		int index = key[i] - 'A';
+		int index = key[i] - 'a';
 
 		if (!stack.back().first->pNext[index]) return res;
 		stack.back().first = stack.back().first->pNext[index];
@@ -175,7 +186,7 @@ vector<string> TrieTree::Suggest(string key)
 		if (pNode->isEndOfWord) res.push_back(keySuggest);
 
 		for (int i = 0; i < NUM_TRIE_NODES; ++i)
-			if (pNode->pNext[i] != nullptr) stack.push_back({ pNode->pNext[i], keySuggest + char(i + 'A') });
+			if (pNode->pNext[i] != nullptr) stack.push_back({ pNode->pNext[i], keySuggest + char(i + 'a') });
 	}
 
 	return res;

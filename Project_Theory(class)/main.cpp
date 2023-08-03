@@ -52,11 +52,11 @@ int main()
 	cout << "data struct " << (root.Search("data struct") ? "is exist in tree\n" : "is not exist in tree\n");
 
 	// Insert a new item into the trie. EX: "data struct"
-	root.Insert("data struct");
+	root.Insert("DATA STRUCT");
 	cout << "data struct " << (root.Search("data struct") ? "is exist in tree\n" : "is not exist in tree\n");
 
 	// Remove an item from the trie. EX: "data struct"
-	root.Delete("data struct");
+	root.Delete("DATA STRUCT");
 	cout << "data struct " << (root.Search("data struct") ? "is exist in tree\n" : "is not exist in tree\n");
 
 	// Remove all elements from the trie

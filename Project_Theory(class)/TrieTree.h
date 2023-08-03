@@ -7,14 +7,14 @@
 
 using namespace std;
 
-const int NUM_TRIE_NODES = 58; // 26 for (a-z) or (A-Z), 58 for (A-z)
+const int NUM_TRIE_NODES = 26; // (a-z)
 
 // Node of trie tree
 struct TrieNode
 {
 	TrieNode* pNext[NUM_TRIE_NODES];
 
-	unsigned int isEndOfWord; // use int if duplicate and bool if not
+	bool isEndOfWord;
 
 	// Check if trie node is empty
 	bool IsEmpty();
