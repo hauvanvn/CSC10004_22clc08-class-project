@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const int NUM_TRIE_NODES = 26; // (a-z)
+const int NUM_TRIE_NODES = 26 + 16 + 7 + 6 + 4;
 
 // Node of trie tree
 struct TrieNode
@@ -61,5 +61,10 @@ private:
 // Create a new trie node
 TrieNode* NewNode();
 
+// Get id of char in trie tree
+int getTrieIndex(int n);
+
+// Convert from trie index to char
+char IndexToChar(int n);
 
 #endif // _TRIE_TREE_H_

@@ -1,9 +1,10 @@
-31
-algorimth
+32
+zz
+a'lgorimth
 sorting algorimth
 hash table
 dsa
-algorimth analysis
+a  lgorimth analysis
 q
 w
 e
